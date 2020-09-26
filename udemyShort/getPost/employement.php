@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PHP Form</title>
+
+    <style>
+        .error {
+            color: red;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -12,13 +19,31 @@
     $name = $website = $position = $experience = $estatus = $comments = "";
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $name = val($_POST["name"]);
-        $website = val($_POST["website"]);
-        $position = val($_POST["position"]);
-        $experience = val($_POST["experience"]);
-        $estatus = val($_POST["estatus"]);
-        $comments = val($_POST["comments"]);
-    }
+
+        if (empty($_POST["name"])) {
+            echo "<span class=\"error\">Error: First Name Required</span>";
+
+        // VALIDATION : NAME CAN ONLY CONTAIN LETTERS AND WHITE SPACE
+        } elseif(!preg_match("/^[a-zA-Z ] * $/", $_POST["name"])) {
+            echo "<span class=\"error\">Error: Name can only contain letters</span>";
+        } elseif (empty($_POST["website"])) {
+            echo "<strong>Error: Website is Required</strong>";
+
+        // VALIDATION: WEBSITE MUST BE IN CORRECT FORMAT (WWW.MYWEBSITE.COM) 
+        } elseif (!preg_match(
+            "/\b(?:(?:https?|ftp):\/\/|www\.)[-a-z0-9+&@#\/%?=~_|!:,.;]*[-a-z0-9+&@#\/%=~_|]/i",
+            $_POST("website"))) {
+                echo "<span class=\"error\">Error: Website is in wrong format</span>";
+            } else {
+                $name = val($_POST["name"]);
+                $website = val($_POST["website"]);
+                $position = val($_POST["position"]);
+                $experience = val($_POST["experience"]);
+                $estatus = val($_POST["estatus"]);
+                $comments = val($_POST["comments"]);
+            } 
+        }
+
 
     function val($data)
     {
@@ -92,17 +117,17 @@
 
     <?php
     echo "<h2>User Input:</h2>";
-    echo "Name: ".$name;
+    echo "Name: " . $name;
     echo "<br>";
-    echo "Website ". $website;
+    echo "Website " . $website;
     echo "<br>";
-    echo "Position ". $position;
+    echo "Position " . $position;
     echo "<br>";
-    echo "Experience ". $experience;
+    echo "Experience " . $experience;
     echo "<br>";
-    echo "Employment Status ". $estatus;
+    echo "Employment Status " . $estatus;
     echo "<br>";
-    echo "Comments: ". $comments;
+    echo "Comments: " . $comments;
     ?>
 </body>
 
