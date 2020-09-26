@@ -26,3 +26,7 @@ htmlspecialchars() = delete unwanted symbol such as javascript code
 striplashes() = remove backlashes from user input data
 trim() = remove any unwanted spaces
 
+preg_match() = test wether is a string meets a specified pattern
+
+
+
